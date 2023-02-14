@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Userprofile, Department, CreditCard, ProductCategory, Product, DetailProduct, Comment, Image, Orderring, BillOrder
+from .models import User,Userprofile, Department, CreditCard, ProductCategory, Product, Comment, Image, Orderring, BillOrder
 
 class departmentSerializer(serializers.ModelSerializer):
     class Meta:

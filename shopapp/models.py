@@ -36,7 +36,7 @@ class ProductCategory(models.Model):
 
 class Product(models.Model):
     name = models.CharField(name=("Name"), max_length=150)
-    rootImage = models.CharField("RootImage", max_length=254)
+    rootImage = models.CharField("RootImage", max_length=254, default=None)
     price = models.IntegerField(name=("Price"), default=0)
     productcategory = models.ForeignKey(ProductCategory, null=True, blank=True,  on_delete=models.CASCADE)
     quanlity_remaining = models.IntegerField(name=("Quanlity_remaining"), default=0)
