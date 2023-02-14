@@ -4,7 +4,7 @@ from .models import User,Userprofile, Department, CreditCard, ProductCategory, P
 class departmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = '__all__'
+        fields = '__all__' #['name', 'code']
          
     def __str__(self):
         return 'Department<{}>: {}'.format(self.pk, self.name)
@@ -26,6 +26,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         
     def __str__(self):
         return 'Profile<{}>: {}'.format(self.pk, self.user)
+
 
 class UserSerializer(serializers.ModelSerializer):
     
