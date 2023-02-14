@@ -19,3 +19,40 @@ class DepartmentViewset(viewsets.ModelViewSet):
     serializer_class = departmentSerializer
     filterset_class = DepartmentFilter
     
+class CreditCardViewset(viewsets.ModelViewSet):
+    queryset = CreditCard.objects.all()
+    serializer_class = CreditcardSerializer
+    
+class ProfileViewset(viewsets.ModelViewSet):
+    queryset = Userprofile.objects.all()
+    serializer_class = ProfileSerializer
+    
+class CategoryViewset(viewsets.ModelViewSet):
+    queryset = ProductCategory.objects.all()
+    serializer_class = ProductCategorySerializer
+    
+class ProductViewset(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ProductSerializer
+        return DetailProductSerializer
+    
+class CommentViewset(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    
+class ImageViewset(viewsets.ModelViewSet):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    
+class OrderringViewset(viewsets.ModelViewSet):
+    queryset = Orderring.objects.all()
+    serializer_class = OrderringSerializer
+    
+class BillOrderViewset(viewsets.ModelViewSet):
+    queryset = BillOrder.objects.all()
+    serializer_class = BillOrderSerializer
+    

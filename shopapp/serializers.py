@@ -48,3 +48,38 @@ class UserListSerializer(serializers.ModelSerializer):
         
     def __str__(self):
         return 'User<{}>: {}'.format(self.pk, self.username)
+
+class ProductCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductCategory
+        fields = '__all__'
+        
+class DetailProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+        
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'rootImage', 'price', 'quanlity_remaining']
+        
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+        
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = '__all__'
+        
+class OrderringSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Orderring
+        fields = '__all__'
+        
+class BillOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BillOrder
+        fields = '__all__'

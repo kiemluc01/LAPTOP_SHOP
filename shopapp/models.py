@@ -36,19 +36,13 @@ class ProductCategory(models.Model):
 
 class Product(models.Model):
     name = models.CharField(name=("Name"), max_length=150)
+    rootImage = models.CharField("RootImage", max_length=254)
     price = models.IntegerField(name=("Price"), default=0)
     productcategory = models.ForeignKey(ProductCategory, null=True, blank=True,  on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return "Product<{}>: {}".format(self.pk, self.name)
-    
-class DetailProduct(models.Model):
-    product = models.ForeignKey(Product, null=True, blank=True,  on_delete=models.CASCADE)
-    specification = models.CharField(name=("Specification"), max_length=500)
     quanlity_remaining = models.IntegerField(name=("Quanlity_remaining"), default=0)
     
     def __str__(self):
-        return "DetailProduct<{}>: {}".format(self.pk, self.product)
+        return "Product<{}>: {}".format(self.pk, self.name)
     
 class Comment(models.Model):
     content = models.CharField(name=("Content"), max_length=1000)
