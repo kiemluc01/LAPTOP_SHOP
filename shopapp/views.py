@@ -7,7 +7,6 @@ from .serializers import *
 from rest_framework.decorators import action
 
 
-# Create your views here.
 
 class DepartmentFilter(FilterSet):
     name = django_filters.CharFilter("Name", max_length=150, lookup_expr='icontains')
