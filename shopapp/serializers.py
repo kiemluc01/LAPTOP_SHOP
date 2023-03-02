@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import User,Userprofile, Department, CreditCard, ProductCategory, Product, Comment, Image, Orderring, BillOrder
-
+from .models import User,Userprofile, Department, CreditCard, ProductCategory, Product, Comment, Image, Orderring, BillOrder, UserPolicy
+from django.contrib.auth import authenticate
 class departmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
@@ -26,6 +26,46 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude =  ['password', 'user_permissions', 'is_superuser', 'is_staff']
+        
+class LoginSerializer(serializers.ModelSerializer):
+    username_log = serializers.CharField(max_length=150)
+    password_log = serializers.CharField(max_length=150,style={'input_type': 'password'}, trim_whitespace=False)
+
+    
+    class Meta:
+        model = User
+        fields = ['username_log', 'password_log']
+        
+    def validate(self, attrs):
+        username_log = attrs.get('username_log')
+        password_log = attrs.get('password_log')
+        if username_log and password_log:
+            if User.objects.filter(username=username_log,is_staff=True,is_active=True).exists():
+                user = authenticate(request=self.context.get('request'),username=username_log, password=password_log)
+            else:
+                msg = {'detail': 'Username is not registered.',
+                       'register': False}
+                raise serializers.ValidationError(msg)
+            if not user:
+                msg = {
+                    'detail': 'Password error.', 'register': True}
+                raise serializers.ValidationError(msg, code='authorization')
+        else:
+            msg = 'Must include "username" and "password".'
+            raise serializers.ValidationError(msg, code='authorization')
+        attrs['user'] = user
+        return attrs
+
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+class UserPolicySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPolicy
+        fields = '__all__'
     
 class UserListSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()

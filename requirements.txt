@@ -12,3 +12,8 @@ lxml==4.9.1
 django-ordered-model==3.6
 django-utils-six #token, don't important
 djoser #gữi mail
+knox #login
+cryptography #knox
+jinja2 #knox
+django-rest-knox
+boto3
