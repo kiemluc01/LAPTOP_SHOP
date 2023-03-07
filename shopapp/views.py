@@ -8,23 +8,6 @@ from rest_framework.decorators import action
 from knox.views import LoginView
 from django.contrib.auth import login
 from rest_framework.response import Response
-
-
-
-
-class DepartmentFilter(FilterSet):
-    name = django_filters.CharFilter("Name", max_length=150, lookup_expr='icontains')
-    class Meta:
-        model = Department
-        fields = ['name']
-class DepartmentViewset(viewsets.ModelViewSet):
-    queryset = Department.objects.all()
-    serializer_class = departmentSerializer
-    filterset_class = DepartmentFilter
-    
-class CreditCardViewset(viewsets.ModelViewSet):
-    queryset = CreditCard.objects.all()
-    serializer_class = CreditcardSerializer
     
 class UserPolicyViewset(viewsets.ModelViewSet):
     queryset = UserPolicy.objects.all()

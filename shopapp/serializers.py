@@ -1,16 +1,6 @@
 from rest_framework import serializers
-from .models import User,Userprofile, Department, CreditCard, ProductCategory, Product, Comment, Image, Orderring, BillOrder, UserPolicy
+from .models import User,Userprofile, ProductCategory, Product, Comment, Image, Orderring, BillOrder, UserPolicy
 from django.contrib.auth import authenticate
-class departmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Department
-        fields = '__all__' 
-    
-class CreditcardSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = CreditCard
-        fields = '__all__'
     
 class ProfileSerializer(serializers.ModelSerializer):
     

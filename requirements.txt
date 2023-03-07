@@ -17,3 +17,4 @@ cryptography #knox
 jinja2 #knox
 django-rest-knox
 boto3
+django-simple-history

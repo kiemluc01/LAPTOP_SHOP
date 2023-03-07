@@ -1,0 +1,46 @@
+from django.db import models
+
+# Create your models here.
+
+class Country(models.Model):
+    name = models.CharField("Country Name", max_length=100)
+    
+    def __str__(self) -> str:
+        return 'Country<{}>: {}'.format(self.pk, self.name)
+    
+class Province(models.Model):
+    country = models.ForeignKey("shopapp.Country", related_name="country", on_delete=models.CASCADE)
+    name = models.CharField("Provience Name", max_length=100)
+    
+    def __str__(self) -> str:
+        return 'Province<{}>: {}'.format(self.country.name, self.name)
+    
+class District(models.Model):
+    province = models.ForeignKey("shopapp.Province", related_name="province", on_delete=models.CASCADE)
+    name = models.CharField("District Name", max_length=100)
+    
+    def __str__(self) -> str:
+        return 'District<{}>: {}'.format(self.province.name, self.name)
+    
+class Ward(models.Model):
+    district = models.ForeignKey("shopapp.District", related_name="district", on_delete=models.CASCADE)
+    name = models.CharField("Ward Name", max_length=100)
+    
+    def __str__(self) -> str:
+        return 'Ward<{}>: {}'.format(self.district.name, self.name)
+    
+class Inventory(models.Model):
+    name = models.CharField("Name", max_length=150)
+    ward = models.ForeignKey("shopapp.Ward", related_name="ward", on_delete=models.CASCADE)
+    addr_detail = models.CharField("Address Detail", max_length=250)
+    
+    def __str__(self) -> str:
+        return 'Inventory<{}>: {}'.format(self.pk, self.name)
+    
+class InventoryItem(models.Model):
+    item = models.ForeignKey("shopapp.Product", related_name="inventory_item_product", on_delete=models.CASCADE)
+    inventory = models.ForeignKey("inventory.Inventory", related_name="inventory_item", on_delete=models.CASCADE)
+    quantity = models.IntegerField("Amount", default=0)
+    
+class InventoryIn(models.Model):
+    pass
