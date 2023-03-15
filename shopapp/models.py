@@ -34,6 +34,7 @@ class Wallet(models.Model):
 class ProductCategory(models.Model):
     name = models.CharField("Name", max_length=150, unique=True)
     code = models.CharField("Code", max_length=50, unique=True)
+    category_history = HistoricalRecords()
     
     def __str__(self):
         return "ProductCategory<{}>: {}".format(self.pk, self.name)
@@ -68,3 +69,4 @@ class BillOrder(models.Model):
     product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
     quanlity = models.IntegerField("quanlity", default=1)
     code = models.CharField("Code", max_length=50)
+    bill_history = HistoricalRecords()
