@@ -8,11 +8,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Userprofile
         fields = '__all__'
 
-
 class UserSerializer(serializers.ModelSerializer):
     
     profile = ProfileSerializer()
-    
     class Meta:
         model = User
         exclude =  ['password', 'user_permissions', 'is_superuser', 'is_staff']
@@ -77,7 +75,7 @@ class DetailProductSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'rootImage', 'price', 'quanlity_remaining']
+        fields = ['id', 'name', 'rootImage', 'price']
         
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

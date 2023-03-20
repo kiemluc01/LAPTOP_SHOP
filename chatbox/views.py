@@ -4,9 +4,32 @@ from . import HandleString as hs
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.templatetags.static import static
-from rest_framework import status
+from rest_framework import status, viewsets
+from chatbox.models import HistoryChat
+from chatbox.serializers import HistoryChatSerializer
+from shopapp.models import Product
+from shopapp.serializers import DetailProductSerializer
 
 # Create your views here.s
+
+class ChatAIViewset(viewsets.ModelViewSet):
+    queryset = HistoryChat.objects.all()
+    serializer_class = HistoryChatSerializer
+    
+    # def create(self, request, *args, **kwargs):
+    #     with open('chatbox/{}'.format(static("data/AI.json")),encoding='utf-8') as file:
+    #         data = json.load(file)
+    #     answer = "Tôi không hiểu câu hỏi của bạn"
+    #     for intent in data["intents"]:
+    #         for questions in intent['questions']:
+    #             if hs.special_characters(hs.no_accent_vietnamese(request.data['question'])).find(hs.special_characters(hs.no_accent_vietnamese(questions))) >=0:
+    #                 answer = intent["answers"][0]
+    #     serializer_user = HistoryChatSerializer(user=request.user, content= request.data['question'])
+    #     if serializer_user.is_valid():
+    #         serializer_user.save()
+        
+        
+    
 class ChatAI(APIView):
     def get(self, request):
         with open('chatbox/{}'.format(static("data/history.json")),encoding='utf-8') as file:
@@ -17,18 +40,30 @@ class ChatAI(APIView):
         with open('chatbox/{}'.format(static("data/AI.json")),encoding='utf-8') as file:
             data = json.load(file)
         answer = "Tôi không hiểu câu hỏi của bạn"
+        has_image = 0
         for intent in data["intents"]:
-            for questions in intent['questions']:
-                if hs.special_characters(hs.no_accent_vietnamese(request.data['question'])).find(hs.special_characters(hs.no_accent_vietnamese(questions))) >=0:
-                    answer = intent["answers"][0]
-        with open('chatbox/{}'.format(static("data/history.json")),encoding='utf-8') as file:
-            data = json.load(file)
-        print(data[-1]['stt'])
-        history_user =  {"stt":data[-1]['stt'] + 1, "status":"user-AI", "text":request.data['question'], "users":"1"}
-        history_AI = {"stt":data[-1]['stt'] + 2, "status":"AI", "text":answer, "users":"1"}
-        data.append(history_user)
-        data.append(history_AI)
-        
-        with open('chatbox/{}'.format(static("data/history.json")), "w", encoding='utf-8') as file:
-            file.write(json.dumps(data))
-        return Response(answer, status=status.HTTP_200_OK)
+            user_ques = hs.no_accent_vietnamese(request.data['question'])
+            if hs.check(intent['questions'],user_ques):
+                answer = intent["answers"][0]
+                if intent['questions'] ==  ["sản phẩm đang hot", "sản phẩm nổi bật nhất"] or intent['questions'] ==["sản phẩm mới nhất", "sản phẩm mới"]:
+                    products = Product.objects.all().order_by('created_at')
+                    answer = '<div className="has_image"><span>Những sản phẩm mới nhất của cửa hàng:'
+                    for product in products:
+                        answer+='</span><br/> <a href="/login"> <img src="/image/laptop1.png" alt=""/><span><strong>{}</strong></span><span>giá bán: {}</span></a>'.format(product.name, product.price)
+                    answer+='</div>'
+                    has_image = 1
+                with open('chatbox/{}'.format(static("data/history.json")),encoding='utf-8') as file:
+                    data = json.load(file)
+                stt =1
+                if data != []:
+                    stt = data[-1]['stt'] + 1
+                history_user =  {"stt":stt, "status":"user-AI", "text":request.data['question'], "users":"1", "has_image":False}
+                history_AI = {"stt":stt+1, "status":"AI", "text":answer, "users":"1", "has_image":has_image}
+                data.append(history_user)
+                data.append(history_AI)
+                
+                with open('chatbox/{}'.format(static("data/history.json")), "w", encoding='utf-8') as file:
+                    file.write(json.dumps(data))
+                return Response({"answer": answer, "has_image":has_image}, status=status.HTTP_200_OK)
+        return Response({"answer": answer, "has_image":has_image}, status=status.HTTP_200_OK)
+            

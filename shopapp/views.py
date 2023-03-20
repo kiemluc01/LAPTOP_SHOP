@@ -12,7 +12,7 @@ from rest_framework.response import Response
 class UserPolicyViewset(viewsets.ModelViewSet):
     queryset = UserPolicy.objects.all()
     serializer_class = UserPolicySerializer
-class ProfileViewset(views.APIView):
+class Profile(views.APIView):
     def get(self, request):
         user_serializer = UserSerializer(request.user)
         return Response(user_serializer.data)

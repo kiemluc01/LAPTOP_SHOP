@@ -11,10 +11,10 @@ router.register(r'images',views.ImageViewset, basename="image")
 router.register(r'orderrings',views.OrderringViewset, basename="orderring" )
 router.register(r'billorders',views.BillOrderViewset, basename="billorder" )
 router.register(r'policies', views.UserPolicyViewset, basename="policy")
-# router.register(r'register', views.RegisterViewSet, basename="register")
+# router.register(r'profile', views.ProfileViewset, basename="profile")
 
 urlpatterns = router.urls + [
-    # path('/', view),
+    # # path('/', view),
     path('login/',views.LoginAPI.as_view()),
-    path('profile/',views.ProfileViewset.as_view()),
+    path('profile/',views.Profile.as_view()),
 ]
