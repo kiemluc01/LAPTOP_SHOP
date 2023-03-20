@@ -25,7 +25,17 @@ SECRET_KEY = 'django-insecure-^*@lgdnfz4p#@at(w#(dxr&gnh8n5*%j!vk^k1l0+4kh3o^%z2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+# CSRF_TRUSTED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    '*',
+]
+CORS_ALLOW_METHODS  = [
+    '*'
+]
+ACCESS_CONTROL_ALLOW_ORIGIN = True
 
 # Application definition
 
@@ -36,9 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'shopapp',
     'inventory',
     
+    
+    # 'whitenoise.runserver_nostatic',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -51,6 +64,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,14 +80,17 @@ ROOT_URLCONF = 'LAPTOP_SHOP.urls'
 
 REST_FRAMEWORK ={
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework.permissions.AllowAny',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
         'knox.auth.TokenAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': (
@@ -128,8 +146,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+SPATIALITE_LIBRARY_PATH='/usr/local/lib/mod_spatialite.dylib'
 
-
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+try:
+    from .local_settings import *
+except Exception:
+    print('local_settings.py not found. Ignored.')
+    pass
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

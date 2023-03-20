@@ -1,15 +1,8 @@
 from django.db import models
-
+from django.contrib.gis.db import models as gis_models
 # Create your models here.
 
-class Country(models.Model):
-    name = models.CharField("Country Name", max_length=100)
-    
-    def __str__(self) -> str:
-        return 'Country<{}>: {}'.format(self.pk, self.name)
-    
 class Province(models.Model):
-    country = models.ForeignKey("inventory.Country", related_name="country", on_delete=models.CASCADE)
     name = models.CharField("Provience Name", max_length=100)
     
     def __str__(self) -> str:
@@ -33,6 +26,7 @@ class Inventory(models.Model):
     name = models.CharField("Name", max_length=150)
     ward = models.ForeignKey("inventory.Ward", related_name="ward", on_delete=models.CASCADE)
     addr_detail = models.CharField("Address Detail", max_length=250)
+    location = gis_models.PointField('Location', default='POINT(0 0)', srid=4326)
     
     def __str__(self) -> str:
         return 'Inventory<{}>: {}'.format(self.pk, self.name)

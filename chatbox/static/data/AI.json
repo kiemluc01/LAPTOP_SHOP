@@ -1,0 +1,29 @@
+{
+    "intents": [
+        {
+            "questions": ["hi", "hello", "2", "alo"],
+            "answers": ["Chào bạn, tôi có thể giúp gì cho bạn?"],
+            "context_set": ""
+        },
+        {
+            "questions": ["sản phẩm đang hot", "sản phẩm nổi bật nhất"],
+            "answers": ["những sản phẩm mới nhất của cửa hàng hiện tại đang có: "],
+            "context_set": ""
+        },
+        {
+            "questions": ["sản phẩm mới nhất", "sản phẩm mới"],
+            "answers": ["những sản phẩm mới nhất của cửa hàng hiện tại đang có: "],
+            "context_set": ""
+        },
+        {
+            "questions": ["là gì", "AI", "Trí tuệ nhân tạo"],
+            "answers": ["Trí tuệ nhân tạo hay trí thông minh nhân tạo (Artificial intelligence  – viết tắt là AI) là một ngành thuộc lĩnh vực khoa học máy tính (Computer science). Là trí tuệ do con người lập trình tạo nên với mục tiêu giúp máy tính có thể tự động hóa các hành vi thông minh như con người!"],
+            "context_set": ""
+        },
+        {
+            "questions": ["AI don't know"],
+            "answers": ["Tôi không hiểu được câu hỏi của bạn"],
+            "context_set": ""
+        }
+    ]
+}
