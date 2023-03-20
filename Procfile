@@ -1,2 +1,2 @@
 python manage.py collectstatic
-web: gunicorn qlbv.wsgi --log-file -
+web: gunicorn LAPTOP_SHOP.wsgi --log-file -
