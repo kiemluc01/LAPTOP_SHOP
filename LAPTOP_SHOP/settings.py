@@ -154,6 +154,8 @@ AUTH_PASSWORD_VALIDATORS = [
 SPATIALITE_LIBRARY_PATH='/usr/local/lib/mod_spatialite.dylib'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 try:
     from .local_settings import *
 except Exception:
