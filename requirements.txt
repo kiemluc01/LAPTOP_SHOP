@@ -25,5 +25,5 @@ pytz==2020.1
 dj-static
 setuptools==58.0.0
 GDAL==3.5.0
-pyproj==8.2.1
+pyproj==3.4.1
 geos==3.7.2
