@@ -1,3 +1,4 @@
-python3 -m pip install --upgrade setuptools
-python manage.py collectstatic
+buildpacks:
+  - https://github.com/heroku/heroku-buildpack-apt
+  - heroku/python
 web: gunicorn LAPTOP_SHOP.wsgi --log-file -

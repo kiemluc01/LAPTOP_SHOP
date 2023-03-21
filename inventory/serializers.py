@@ -11,4 +11,22 @@ class InventoryItemSerializer(serializers.ModelSerializer):
         model = InventoryItem
         fields ='__all__'
         
-# class 
+class InventoryInSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventoryIn
+        fields = '__all__'
+        
+class InventoryInItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventoryInItem
+        fields = '__all__'
+        
+class InventoryOutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventoryOut
+        fields = '__all__'
+        
+class InventoryOutItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventoryOutItem
+        fields = '__all__'
