@@ -1,4 +1,2 @@
-buildpacks:
-  - https://github.com/heroku/heroku-buildpack-apt
-  - heroku/python
+python manage.py collectstatic
 web: gunicorn LAPTOP_SHOP.wsgi --log-file -
