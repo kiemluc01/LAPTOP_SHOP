@@ -14,7 +14,7 @@ class UserPolicy(base_models.BaseCreateUpdateModel):
     description = models.CharField("Desription", max_length=200)
     
 class Userprofile(base_models.BaseCreateUpdateModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile_user')
     root_image = models.ImageField(upload_to="image_user/", null=True)
     policy = models.ForeignKey("shopapp.UserPolicy", default=1,related_name="policy", on_delete=models.CASCADE)
     SDT = models.CharField("SDT", max_length=50, unique=True)

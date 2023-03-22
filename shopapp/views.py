@@ -14,7 +14,8 @@ class UserPolicyViewset(viewsets.ModelViewSet):
     serializer_class = UserPolicySerializer
 class Profile(views.APIView):
     def get(self, request):
-        user_serializer = UserSerializer(request.user)
+        profile = Userprofile.objects.get(user=request.user)
+        user_serializer = ProfileSerializer(profile)
         return Response(user_serializer.data)
     
 class CategoryViewset(viewsets.ModelViewSet):

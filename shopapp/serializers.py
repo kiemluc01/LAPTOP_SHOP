@@ -2,19 +2,16 @@ from rest_framework import serializers
 from .models import User,Userprofile, ProductCategory, Product, Comment, Image, Orderring, BillOrder, UserPolicy
 from django.contrib.auth import authenticate
     
-class ProfileSerializer(serializers.ModelSerializer):
+# class ProfileSerializer(serializers.ModelSerializer):
     
+#     class Meta:
+#         model = Userprofile
+#         fields = '__all__'
+
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Userprofile
         fields = '__all__'
-
-class UserSerializer(serializers.ModelSerializer):
-    
-    profile = ProfileSerializer()
-    class Meta:
-        model = User
-        exclude =  ['password', 'user_permissions', 'is_superuser', 'is_staff']
-        
 class LoginSerializer(serializers.ModelSerializer):
     username_log = serializers.CharField(max_length=150)
     password_log = serializers.CharField(max_length=150,style={'input_type': 'password'}, trim_whitespace=False)
