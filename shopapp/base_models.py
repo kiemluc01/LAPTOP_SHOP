@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.gis.db import models as gis_models
+# from django.contrib.gis.db import models as gis_models
 
-class BaseCreateModel(gis_models.Model):
+class BaseCreateModel(models.Model):
     created_at = models.DateTimeField('Created At', auto_now_add=True, null=True)
 
     class Meta:
