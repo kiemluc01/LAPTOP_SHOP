@@ -15,15 +15,14 @@ class UserPolicy(base_models.BaseCreateUpdateModel):
     
 class Userprofile(base_models.BaseCreateUpdateModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile_user')
-    root_image = models.ImageField(upload_to="image_user/", null=True)
-    policy = models.ForeignKey("shopapp.UserPolicy", default=1,related_name="policy", on_delete=models.CASCADE)
+    root_image = models.ImageField(upload_to="image_user/", null=True, blank=True)
+    policy = models.ForeignKey("shopapp.UserPolicy", default=1,related_name="policy", on_delete=models.CASCADE, blank=True)
     SDT = models.CharField("SDT", max_length=50, unique=True)
     addr = models.CharField("Addr", max_length=254)
     
     def __str__(self):
         return "Userprofile<{}>: {}".format(self.pk, self.user.username)
 class Wallet(base_models.BaseCreateUpdateModel):
-    code = models.CharField("Code", max_length=50, unique=True)
     user = models.ForeignKey("shopapp.Userprofile", related_name="user_wallet", on_delete=models.CASCADE)
     balance = models.IntegerField("Balance",default=0)
     is_active = models.BooleanField("Active", default=True)
@@ -34,7 +33,6 @@ class Wallet(base_models.BaseCreateUpdateModel):
     
 class ProductCategory(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=150, unique=True)
-    code = models.CharField("Code", max_length=50, unique=True)
     category_history = HistoricalRecords()
     
     def __str__(self):

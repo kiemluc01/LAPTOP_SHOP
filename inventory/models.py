@@ -1,4 +1,5 @@
 from django.db import models
+from simple_history.models import HistoricalRecords
 # from django.contrib.gis.db import models as gis_models
 # Create your models here.
 
@@ -45,6 +46,7 @@ class InventoryIn(models.Model):
     state = models.IntegerField("State", choices=INVENTORYIN_STATE)
     in_day = models.DateField("day input", auto_now_add=True)
     confirmed_at = models.DateField("confirmed At",null=True, blank=True)
+    history = HistoricalRecords()
     
 class InventoryInItem(models.Model):
     inventory_in = models.ForeignKey("inventory.InventoryIn", related_name="inventory_in_item", on_delete=models.CASCADE)
@@ -65,3 +67,4 @@ class InventoryOutItem(models.Model):
     inventory_in = models.ForeignKey("inventory.InventoryOut", related_name="inventory_out_item", on_delete=models.CASCADE)
     name = models.CharField("Name Item", max_length=150)
     quantity = models.IntegerField("Amount", default=0)
+    history = HistoricalRecords()

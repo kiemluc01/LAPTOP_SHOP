@@ -14,7 +14,5 @@ router.register(r'policies', views.UserPolicyViewset, basename="policy")
 # router.register(r'profile', views.ProfileViewset, basename="profile")
 
 urlpatterns = router.urls + [
-    # # path('/', view),
-    path('login/',views.LoginAPI.as_view()),
     path('profile/',views.Profile.as_view()),
 ]

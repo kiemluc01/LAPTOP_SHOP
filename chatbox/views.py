@@ -6,15 +6,21 @@ from rest_framework.response import Response
 from django.templatetags.static import static
 from rest_framework import status, viewsets
 from chatbox.models import HistoryChat
-from chatbox.serializers import HistoryChatSerializer
+from chatbox.serializers import HistoryChatSerializer, ProductHistory, StaffHistorySerializer, DetailHistorychatSerializer
 from shopapp.models import Product
 from shopapp.serializers import DetailProductSerializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here.s
 
 class ChatAIViewset(viewsets.ModelViewSet):
     queryset = HistoryChat.objects.all()
     serializer_class = HistoryChatSerializer
+    
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return DetailHistorychatSerializer
+        return HistoryChatSerializer
     
     # def create(self, request, *args, **kwargs):
     #     with open('chatbox/{}'.format(static("data/AI.json")),encoding='utf-8') as file:
@@ -31,6 +37,8 @@ class ChatAIViewset(viewsets.ModelViewSet):
         
     
 class ChatAI(APIView):
+    authentication_classes = [JWTAuthentication]
+    
     def get(self, request):
         with open('chatbox/{}'.format(static("data/history.json")),encoding='utf-8') as file:
             data = json.load(file)
