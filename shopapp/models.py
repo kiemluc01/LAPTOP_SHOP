@@ -38,7 +38,7 @@ class ProductCategory(base_models.BaseCreateUpdateModel):
     def __str__(self):
         return "ProductCategory<{}>: {}".format(self.pk, self.name)
 
-class Product(base_models.BaseCreateUpdateModel):
+class BaseProduct(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=150)
     rootImage = models.ImageField(upload_to="media/", null=True)
     price = models.IntegerField("Price", default=0)
@@ -52,14 +52,14 @@ class Product(base_models.BaseCreateUpdateModel):
 class Image(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=100, null=False)
     image = models.ImageField(upload_to='image_product/', null=True)
-    product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.BaseProduct", blank=True ,  on_delete=models.CASCADE)
     
 class Cart(base_models.BaseCreateUpdateModel):
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
     
 class CartItem(base_models.BaseCreateUpdateModel):
     cart = models.ForeignKey("shopapp.Cart", blank=True ,  on_delete=models.CASCADE)
-    product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.BaseProduct", blank=True ,  on_delete=models.CASCADE)
     quanlity = models.IntegerField("quanlity", default=1)
     
 class Bill(base_models.BaseCreateUpdateModel):
@@ -69,8 +69,13 @@ class Bill(base_models.BaseCreateUpdateModel):
     
 class BillItem(base_models.BaseCreateUpdateModel):
     bill = models.ForeignKey("shopapp.Bill", blank=True ,  on_delete=models.CASCADE)
-    product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.BaseProduct", blank=True ,  on_delete=models.CASCADE)
     quanlity = models.IntegerField("quanlity", default=1)
+    
+class BillItemDetail(base_models.BaseCreateUpdateModel):
+    bill_item = models.ForeignKey("shopapp.BillItem", related_name="bill_item_detail", on_delete=models.CASCADE)
+    item_serial = models.ForeignKey("inventory.InventoryItemSerial", related_name="bill_item_reial", on_delete=models.CASCADE)
+    price = models.IntegerField("Price", default=0)
 class Comment(base_models.BaseCreateUpdateModel):
     content = models.CharField("Content", null=True, max_length=1000)
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)

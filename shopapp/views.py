@@ -22,7 +22,7 @@ class CategoryViewset(viewsets.ModelViewSet):
     serializer_class = ProductCategorySerializer
     
 class ProductViewset(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = BaseProduct.objects.all()
     serializer_class = ProductSerializer
     
     def get_serializer_class(self):

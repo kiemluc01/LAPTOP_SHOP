@@ -7,7 +7,7 @@ from django.templatetags.static import static
 from rest_framework import status, viewsets
 from chatbox.models import HistoryChat
 from chatbox.serializers import HistoryChatSerializer, ProductHistory, StaffHistorySerializer, DetailHistorychatSerializer
-from shopapp.models import Product
+from shopapp.models import BaseProduct
 from shopapp.serializers import DetailProductSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -54,7 +54,7 @@ class ChatAI(APIView):
             if hs.check(intent['questions'],user_ques):
                 answer = intent["answers"][0]
                 if intent['questions'] ==  ["sản phẩm đang hot", "sản phẩm nổi bật nhất"] or intent['questions'] ==["sản phẩm mới nhất", "sản phẩm mới"]:
-                    products = Product.objects.all().order_by('created_at')
+                    products = BaseProduct.objects.all().order_by('created_at')
                     answer = '<div className="has_image"><span>Những sản phẩm mới nhất của cửa hàng:'
                     for product in products:
                         answer+='</span><br/> <a href="/login"> <img src="http://127.0.0.1:8000/media/{}" alt=""/><span><strong>{}</strong></span><span>giá bán: {}</span></a>'.format(product.rootImage,product.name, product.price)

@@ -15,6 +15,6 @@ class StaffHistorychat(base_models.BaseCreateUpdateModel):
     
 class ProductHistory(base_models.BaseCreateUpdateModel):
     history = models.ForeignKey("chatbox.HistoryChat", related_name="product_history", on_delete=models.CASCADE)
-    product = models.ForeignKey("shopapp.Product", related_name="product_image", on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.BaseProduct", related_name="product_image", on_delete=models.CASCADE)
 
     

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Userprofile, ProductCategory, Product, Comment, Image, Cart, CartItem, Bill, BillItem, UserPolicy
+from .models import User,Userprofile, ProductCategory, BaseProduct, Comment, Image, Cart, CartItem, Bill, BillItem, UserPolicy
 from django.contrib.auth import authenticate
 
     
@@ -48,12 +48,12 @@ class ProductCategorySerializer(serializers.ModelSerializer):
         
 class DetailProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = BaseProduct
         fields = '__all__'
         
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = BaseProduct
         fields = ['id', 'name', 'rootImage', 'price']
         
 class CommentSerializer(serializers.ModelSerializer):

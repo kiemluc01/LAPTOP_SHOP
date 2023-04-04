@@ -33,10 +33,24 @@ class Inventory(base_models.BaseCreateUpdateModel):
     def __str__(self) -> str:
         return 'Inventory<{}>: {}'.format(self.pk, self.name)
     
+    
+class Ram(base_models.BaseCreateUpdateModel):
+    name = models.CharField("name", max_length=100, unique=True, blank=True)
+    price = models.IntegerField("Price", default=0)
+    
+class InventoryInItem(models.Model):
+    inventory_in = models.ForeignKey("inventory.InventoryIn", related_name="inventory_in_item", on_delete=models.CASCADE)
+    name = models.CharField("Name Item", max_length=150)
+    quantity = models.IntegerField("Amount", default=0)
 class InventoryItem(base_models.BaseCreateUpdateModel):
-    item = models.ForeignKey("shopapp.Product", related_name="inventory_item_product", on_delete=models.CASCADE)
+    item = models.ForeignKey("shopapp.BaseProduct", related_name="inventory_item_product", on_delete=models.CASCADE)
     inventory = models.ForeignKey("inventory.Inventory", related_name="inventory_item", on_delete=models.CASCADE)
     quantity = models.IntegerField("Amount", default=0)
+    
+class InventoryItemSerial(base_models.BaseCreateUpdateModel):
+    item = models.ForeignKey("inventory.InventoryItem", related_name="item_serial", on_delete=models.CASCADE)
+    ram = models.ForeignKey("inventory.Ram", related_name="product_ram", null=True, blank=True, on_delete=models.CASCADE)
+    cpu = models.ForeignKey("inventory.CPU", related_name="product_cpu", null=True, blank=True, on_delete=models.CASCADE)
     
 INVENTORYIN_STATE = (
     (0, "step"),
@@ -52,17 +66,6 @@ class InventoryIn(base_models.BaseCreateUpdateModel):
 class CPU(base_models.BaseCreateUpdateModel):
     name = models.CharField("name", max_length=100, unique=True, blank=True)
     price = models.IntegerField("Price", default=0)
-    
-class Ram(base_models.BaseCreateUpdateModel):
-    name = models.CharField("name", max_length=100, unique=True, blank=True)
-    price = models.IntegerField("Price", default=0)
-    
-class InventoryInItem(models.Model):
-    inventory_in = models.ForeignKey("inventory.InventoryIn", related_name="inventory_in_item", on_delete=models.CASCADE)
-    name = models.CharField("Name Item", max_length=150)
-    quantity = models.IntegerField("Amount", default=0)
-    ram = models.ForeignKey("inventory.Ram", related_name="product_ram", null=True, blank=True, on_delete=models.CASCADE)
-    cpu = models.ForeignKey("inventory.CPU", related_name="product_cpu", null=True, blank=True, on_delete=models.CASCADE)
 
 INVENTORYOUT_STATE = (
     (0, "step"),
