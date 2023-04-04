@@ -39,11 +39,11 @@ class ImageViewset(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
     
 class OrderringViewset(viewsets.ModelViewSet):
-    queryset = Orderring.objects.all()
+    queryset = Cart.objects.all()
     serializer_class = OrderringSerializer
     
 class BillOrderViewset(viewsets.ModelViewSet):
-    queryset = BillOrder.objects.all()
+    queryset = Bill.objects.all()
     serializer_class = BillOrderSerializer
     
     

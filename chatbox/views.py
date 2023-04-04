@@ -57,7 +57,7 @@ class ChatAI(APIView):
                     products = Product.objects.all().order_by('created_at')
                     answer = '<div className="has_image"><span>Những sản phẩm mới nhất của cửa hàng:'
                     for product in products:
-                        answer+='</span><br/> <a href="/login"> <img src="/image/laptop1.png" alt=""/><span><strong>{}</strong></span><span>giá bán: {}</span></a>'.format(product.name, product.price)
+                        answer+='</span><br/> <a href="/login"> <img src="http://127.0.0.1:8000/media/{}" alt=""/><span><strong>{}</strong></span><span>giá bán: {}</span></a>'.format(product.rootImage,product.name, product.price)
                     answer+='</div>'
                     has_image = 1
                 with open('chatbox/{}'.format(static("data/history.json")),encoding='utf-8') as file:

@@ -48,24 +48,30 @@ class Product(base_models.BaseCreateUpdateModel):
     def __str__(self):
         return "Product<{}>: {}".format(self.pk, self.name)
     
-class Comment(base_models.BaseCreateUpdateModel):
-    content = models.CharField("Content", null=True, max_length=1000)
-    user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
-    product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
     
 class Image(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=100, null=False)
     image = models.ImageField(upload_to='image_product/', null=True)
     product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
     
-class Orderring(base_models.BaseCreateUpdateModel):
+class Cart(base_models.BaseCreateUpdateModel):
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
+    
+class CartItem(base_models.BaseCreateUpdateModel):
+    cart = models.ForeignKey("shopapp.Cart", blank=True ,  on_delete=models.CASCADE)
     product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
     quanlity = models.IntegerField("quanlity", default=1)
     
-class BillOrder(base_models.BaseCreateUpdateModel):
+class Bill(base_models.BaseCreateUpdateModel):
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
-    product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
-    quanlity = models.IntegerField("quanlity", default=1)
     code = models.CharField("Code", max_length=50)
     bill_history = HistoricalRecords()
+    
+class BillItem(base_models.BaseCreateUpdateModel):
+    bill = models.ForeignKey("shopapp.Bill", blank=True ,  on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.Product", blank=True ,  on_delete=models.CASCADE)
+    quanlity = models.IntegerField("quanlity", default=1)
+class Comment(base_models.BaseCreateUpdateModel):
+    content = models.CharField("Content", null=True, max_length=1000)
+    user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
+    bill_order = models.ForeignKey("shopapp.Bill", blank=True, null=True,  on_delete=models.CASCADE)
