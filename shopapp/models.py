@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from simple_history.models import HistoricalRecords
 from shopapp import base_models
+from datetime import datetime
 # Create your models here.  
 
 POLICY_STATUS = (
@@ -30,6 +31,13 @@ class Wallet(base_models.BaseCreateUpdateModel):
     
     def __str__(self):
         return "CreditCard<{}>: {}".format(self.pk, self.code)
+    
+class SaleCode(base_models.BaseCreateUpdateModel):
+    code = models.CharField("Code", max_length=50)
+    quantity = models.IntegerField(default=1)
+    price = models.IntegerField("Sale Price", default=0)
+    start_time = models.DateField("Start time", default=datetime.now(), blank=True)
+    end_time = models.DateField("End Time", null=True, blank=True)
     
 class ProductCategory(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=150, unique=True)
@@ -65,6 +73,7 @@ class CartItem(base_models.BaseCreateUpdateModel):
 class Bill(base_models.BaseCreateUpdateModel):
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
     code = models.CharField("Code", max_length=50)
+    sale_code = models.ForeignKey("shopapp.SaleCode", related_name="sale_code_bill", on_delete=models.CASCADE, null=True, blank=True)
     bill_history = HistoricalRecords()
     
 class BillItem(base_models.BaseCreateUpdateModel):
