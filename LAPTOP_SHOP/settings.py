@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'djoser',
     'knox',
     'simple_history',
+    'storages',
     
 ]
 
