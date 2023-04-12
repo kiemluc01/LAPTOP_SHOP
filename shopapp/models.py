@@ -88,4 +88,10 @@ class BillItemDetail(base_models.BaseCreateUpdateModel):
 class Comment(base_models.BaseCreateUpdateModel):
     content = models.CharField("Content", null=True, max_length=1000)
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
-    bill_order = models.ForeignKey("shopapp.Bill", blank=True, null=True,  on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.BaseProduct", blank=True, null=True,  on_delete=models.CASCADE)
+    
+class Rate(base_models.BaseCreateUpdateModel):
+    content = models.CharField("Content", max_length=1000)
+    rate_star = models.IntegerField(default=1)
+    user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
+    bill = models.ForeignKey("shopapp.BillItemDetail", blank=True, null=True,  on_delete=models.CASCADE)

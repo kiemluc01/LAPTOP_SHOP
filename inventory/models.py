@@ -39,10 +39,6 @@ class Ram(base_models.BaseCreateUpdateModel):
     name = models.CharField("name", max_length=100, unique=True, blank=True)
     price = models.IntegerField("Price", default=0)
     
-class InventoryInItem(models.Model):
-    inventory_in = models.ForeignKey("inventory.InventoryIn", related_name="inventory_in_item", on_delete=models.CASCADE)
-    name = models.CharField("Name Item", max_length=150)
-    quantity = models.IntegerField("Amount", default=0)
 class CPU(base_models.BaseCreateUpdateModel):
     name = models.CharField("name", max_length=100, unique=True, blank=True)
     price = models.IntegerField("Price", default=0)
@@ -67,20 +63,7 @@ class InventoryIn(base_models.BaseCreateUpdateModel):
     in_day = models.DateField("day input", auto_now_add=True)
     confirmed_at = models.DateField("confirmed At",null=True, blank=True)
     history = HistoricalRecords()
-    
-
-INVENTORYOUT_STATE = (
-    (0, "step"),
-    (1, "confirmed"),
-)
-class InventoryOut(base_models.BaseCreateUpdateModel):
-    inventory = models.ForeignKey("inventory.Inventory", related_name="inventoryOut", on_delete=models.CASCADE)
-    state = models.IntegerField("State", choices=INVENTORYOUT_STATE)
-    out_day = models.DateField("day output", auto_now_add=True)
-    confirmed_at = models.DateField("confirmed At",null=True, blank=True)
-    history = HistoricalRecords()
-    
-class InventoryOutItem(base_models.BaseCreateUpdateModel):
-    inventory_in = models.ForeignKey("inventory.InventoryOut", related_name="inventory_out_item", on_delete=models.CASCADE)
+class InventoryInItem(models.Model):
+    inventory_in = models.ForeignKey("inventory.InventoryIn", related_name="inventory_in_item", on_delete=models.CASCADE)
     name = models.CharField("Name Item", max_length=150)
     quantity = models.IntegerField("Amount", default=0)
