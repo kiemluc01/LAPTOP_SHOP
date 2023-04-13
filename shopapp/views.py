@@ -33,6 +33,7 @@ class ProductViewset(viewsets.ModelViewSet):
     @action(detail=True, methods=['GET'])
     def get_image(self, request, pk=None):
         images = Image.objects.filter(product=pk)
+        print(images)
         return Response(ImageSerializer(images).data, status=status.HTTP_200_OK)
     
 class CommentViewset(viewsets.ModelViewSet):
