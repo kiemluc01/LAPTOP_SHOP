@@ -58,7 +58,7 @@ class BaseProduct(base_models.BaseCreateUpdateModel):
     
     
 class Image(base_models.BaseCreateUpdateModel):
-    name = models.CharField("Name", max_length=100, null=False)
+    name = models.CharField("Name", max_length=100, null=True)
     image = models.ImageField(upload_to='image_product/', null=True)
     product = models.ForeignKey("shopapp.BaseProduct", blank=True ,  on_delete=models.CASCADE)
     
