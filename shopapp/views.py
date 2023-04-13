@@ -30,6 +30,11 @@ class ProductViewset(viewsets.ModelViewSet):
             return ProductSerializer
         return DetailProductSerializer
     
+    @action(detail=True, methods=['GET'])
+    def get_image(self, request, pk=None):
+        images = Image.objects.filter(product=pk)
+        return Response(ImageSerializer(images).data, status=status.HTTP_200_OK)
+    
 class CommentViewset(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
