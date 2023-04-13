@@ -35,6 +35,7 @@ class ProductViewset(viewsets.ModelViewSet):
         images = Image.objects.filter(product=pk)
         image_serializer = ImageSerializer(data=images)
         image_serializer.is_valid()
+        print(image_serializer.data)
         return Response(image_serializer.data, status=status.HTTP_200_OK)
     
 class CommentViewset(viewsets.ModelViewSet):
