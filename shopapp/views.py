@@ -23,20 +23,20 @@ class CategoryViewset(viewsets.ModelViewSet):
     
 class ProductViewset(viewsets.ModelViewSet):
     queryset = BaseProduct.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = DetailProductSerializer
     
     def get_serializer_class(self):
-        if self.action == 'list':
-            return ProductSerializer
-        return DetailProductSerializer
+        if self.action == 'retrieve':
+            print('retrieve')
+            return DetailProductSerializer
+        return ProductSerializer
     
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def get_image(self, request, pk=None):
         images = Image.objects.filter(product=pk)
-        image_serializer = ImageSerializer(data=images)
-        image_serializer.is_valid()
-        print(image_serializer.data)
-        return Response(image_serializer.data, status=status.HTTP_200_OK)
+        return Response(ImageSerializer(images).data, status=status.HTTP_200_OK)
+    
+    
     
 class CommentViewset(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
@@ -45,6 +45,8 @@ class CommentViewset(viewsets.ModelViewSet):
 class ImageViewset(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+    
+    
     
 class OrderringViewset(viewsets.ModelViewSet):
     queryset = Cart.objects.all()

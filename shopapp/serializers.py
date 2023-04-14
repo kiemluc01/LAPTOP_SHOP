@@ -46,7 +46,13 @@ class ProductCategorySerializer(serializers.ModelSerializer):
         model = ProductCategory
         fields = '__all__'
         
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = '__all__'
 class DetailProductSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True)
+    
     class Meta:
         model = BaseProduct
         fields = '__all__'
@@ -61,10 +67,6 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
         
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = '__all__'
         
 class OrderringSerializer(serializers.ModelSerializer):
     class Meta:

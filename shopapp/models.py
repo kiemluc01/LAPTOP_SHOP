@@ -57,10 +57,15 @@ class BaseProduct(base_models.BaseCreateUpdateModel):
         return "Product<{}>: {}".format(self.pk, self.name)
     
     
+    
 class Image(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=100, null=True)
     image = models.ImageField(upload_to='image_product/', null=True)
-    product = models.ForeignKey("shopapp.BaseProduct", blank=True ,  on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.BaseProduct", related_name="images" ,  on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return 'image <{}>: {}'.format(self.pk, self.product)
+    
     
 class Cart(base_models.BaseCreateUpdateModel):
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
