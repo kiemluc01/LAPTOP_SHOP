@@ -32,7 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000/', 'https://kimanhshop.vercel.app/login']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'https://kimanhshop.vercel.app']
 CORS_ALLOWED_ORIGIN_REGEXES = [
     '*',
 ]
