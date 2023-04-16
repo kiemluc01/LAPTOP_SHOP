@@ -4,43 +4,29 @@ from django.contrib.auth import authenticate
 from inventory.serializers import InventoryItemSerializer
 
     
-# class ProfileSerializer(serializers.ModelSerializer):
+class ProfileListSerializer(serializers.ModelSerializer):
     
-#     class Meta:
-#         model = Userprofile
-#         fields = '__all__'
-
-class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Userprofile
         fields = '__all__'
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
 
-    def validate(self, attrs):
-        user = authenticate(username=attrs['username'], password=attrs['password'])
-        if not user:
-            raise serializers.ValidationError('Invalid username or password')
-        return attrs
-
-class RegisterSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    profile_user = ProfileListSerializer(read_only=True)
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
-
+        fields = ('id', 'username', 'email', 'profile_user')
 class UserPolicySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPolicy
         fields = '__all__'
     
 class UserListSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
+    # profile = ProfileSerializer()
     
     class Meta:
         model = User
-        fileds =  ['id', 'username', 'email', 'Profile']
+        # fileds =  ['id', 'username', 'email', 'Profile']
+        fileds = '__all__'
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -64,12 +50,18 @@ class ProductSerializer(serializers.ModelSerializer):
         model = BaseProduct
         fields = ['id', 'name', 'rootImage', 'price', 'inventory_item_product']
         
+class ProductCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BaseProduct
+        fields = ['id', 'name', 'rootImage', 'price', 'inventory_item_product']
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
         
 class CartItemSerializer(serializers.ModelSerializer):
+    base_product = ProductCartSerializer(read_only=True)
     class Meta:
         model = CartItem
         fields = '__all__'

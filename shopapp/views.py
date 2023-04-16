@@ -13,9 +13,15 @@ class UserPolicyViewset(viewsets.ModelViewSet):
     serializer_class = UserPolicySerializer
 class Profile(views.APIView):
     def get(self, request):
-        profile = Userprofile.objects.get(user=request.user)
+        profile = User.objects.filter(pk=request.user.id).first()
+        print(profile.password)
         user_serializer = ProfileSerializer(profile)
         return Response(user_serializer.data)
+    
+    def post(self, request):
+        user = User.objects.create_user(username=request.data['username'], password=request.data['password'], is_staff=True)
+        user.save()
+        return Response(ProfileSerializer(user).data)
     
 class CategoryViewset(viewsets.ModelViewSet):
     queryset = ProductCategory.objects.all()
@@ -55,9 +61,7 @@ class ImageViewset(viewsets.ModelViewSet):
 class OrderringViewset(views.APIView):
     
     def get(self, request):
-        print('có gét')
         cart = Cart.objects.filter(user=request.user).first()
-        print(OrderringSerializer(cart).data)
         return Response(OrderringSerializer(cart).data)
     
 class BillOrderViewset(viewsets.ModelViewSet):

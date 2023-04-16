@@ -72,7 +72,7 @@ class Cart(base_models.BaseCreateUpdateModel):
     
 class CartItem(base_models.BaseCreateUpdateModel):
     cart = models.ForeignKey("shopapp.Cart", blank=True , related_name='items' ,  on_delete=models.CASCADE)
-    product = models.ForeignKey("shopapp.BaseProduct", blank=True ,  on_delete=models.CASCADE)
+    product = models.ForeignKey("shopapp.BaseProduct", blank=True,related_name='base_product' ,  on_delete=models.CASCADE)
     quanlity = models.IntegerField("quanlity", default=1)
     
 class Bill(base_models.BaseCreateUpdateModel):
