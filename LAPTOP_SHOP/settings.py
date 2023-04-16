@@ -32,18 +32,31 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000/','https://datn-reactjs.vercel.app/',]
 CORS_ALLOWED_ORIGIN_REGEXES = [
     '*',
 ]
 CORS_ALLOW_METHODS  = [
-    'GET',
-    'POST',
-    'PUT',
-    'DELETE', 
-    'OPTION',
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
-ACCESS_CONTROL_ALLOW_ORIGIN = True
+ACCESS_CONTROL_ALLOW_ORIGIN = ['http://localhost:3000/','https://datn-reactjs.vercel.app/',]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+CORS_REPLACE_HTTPS_REFERER = True
 
 # Application definition
 
@@ -74,10 +87,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -85,7 +98,11 @@ MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware',
     # 'crum.CurrentRequestUserMiddleware',
 ]
-
+MIDDLEWARE_CLASSES = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "corsheaders.middleware.CorsPostCsrfMiddleware",
+]
 
 ROOT_URLCONF = 'LAPTOP_SHOP.urls'
 TEMPLATES = [

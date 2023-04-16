@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from inventory.models import Inventory, InventoryIn, InventoryInItem, InventoryItem, InventoryOut, InventoryOutItem
+from inventory.models import Inventory, InventoryIn, InventoryInItem, InventoryItem
 
 class InventorySerrializer(serializers.ModelSerializer):
     class Meta:
@@ -21,12 +21,3 @@ class InventoryInItemSerializer(serializers.ModelSerializer):
         model = InventoryInItem
         fields = '__all__'
         
-class InventoryOutSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InventoryOut
-        fields = '__all__'
-        
-class InventoryOutItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InventoryOutItem
-        fields = '__all__'

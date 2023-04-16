@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User,Userprofile, ProductCategory, BaseProduct, Comment, Image, Cart, CartItem, Bill, BillItem, UserPolicy
 from django.contrib.auth import authenticate
+from inventory.serializers import InventoryItemSerializer
 
     
 # class ProfileSerializer(serializers.ModelSerializer):
@@ -58,17 +59,22 @@ class DetailProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class ProductSerializer(serializers.ModelSerializer):
+    inventory_item_product = InventoryItemSerializer(many=True, read_only=True)
     class Meta:
         model = BaseProduct
-        fields = ['id', 'name', 'rootImage', 'price']
+        fields = ['id', 'name', 'rootImage', 'price', 'inventory_item_product']
         
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
         
-        
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = '__all__'
 class OrderringSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(read_only=True, many=True)
     class Meta:
         model = Cart
         fields = '__all__'

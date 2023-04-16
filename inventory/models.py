@@ -9,7 +9,7 @@ class Province(base_models.BaseCreateUpdateModel):
     name = models.CharField("Provience Name", max_length=100)
     
     def __str__(self) -> str:
-        return 'Province<{}>: {}'.format(self.country.name, self.name)
+        return 'Province<{}>: {}'.format(self.pk, self.name)
     
 class District(base_models.BaseCreateUpdateModel):
     province = models.ForeignKey("inventory.Province", related_name="province", on_delete=models.CASCADE)

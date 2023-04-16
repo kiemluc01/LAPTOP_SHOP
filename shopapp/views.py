@@ -21,9 +21,13 @@ class CategoryViewset(viewsets.ModelViewSet):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
     
+    
+class FilterProduct(django_filters.FilterSet):
+    name = django_filters.CharFilter(field_name='name', lookup_expr="icontains")
 class ProductViewset(viewsets.ModelViewSet):
     queryset = BaseProduct.objects.all()
     serializer_class = DetailProductSerializer
+    filterset_class = FilterProduct
     
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -48,9 +52,13 @@ class ImageViewset(viewsets.ModelViewSet):
     
     
     
-class OrderringViewset(viewsets.ModelViewSet):
-    queryset = Cart.objects.all()
-    serializer_class = OrderringSerializer
+class OrderringViewset(views.APIView):
+    
+    def get(self, request):
+        print('có gét')
+        cart = Cart.objects.filter(user=request.user).first()
+        print(OrderringSerializer(cart).data)
+        return Response(OrderringSerializer(cart).data)
     
 class BillOrderViewset(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
