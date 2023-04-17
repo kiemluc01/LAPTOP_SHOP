@@ -39,6 +39,9 @@ class SaleCode(base_models.BaseCreateUpdateModel):
     start_time = models.DateField("Start time", default=datetime.now(), blank=True)
     end_time = models.DateField("End Time", null=True, blank=True)
     
+    def __str__(self) -> str:
+        return 'SaleCode<{}>: {}-{}'.format(self.pk, self.code, self.price)
+    
 class ProductCategory(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=150, unique=True)
     category_history = HistoricalRecords()
@@ -70,10 +73,17 @@ class Image(base_models.BaseCreateUpdateModel):
 class Cart(base_models.BaseCreateUpdateModel):
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
     
+    def __str__(self) -> str:
+        return 'Cart<{}>: {}'.format(self.pk, self.user)
+    
 class CartItem(base_models.BaseCreateUpdateModel):
     cart = models.ForeignKey("shopapp.Cart", blank=True , related_name='items' ,  on_delete=models.CASCADE)
     product = models.ForeignKey("shopapp.BaseProduct", blank=True,related_name='base_product' ,  on_delete=models.CASCADE)
     quantity = models.IntegerField("quantity", default=1)
+    
+    def __str__(self) -> str:
+        return 'CartItem<{}>: {}-{}'.format(self.pk, self.cart, self.product)
+    
     
 class Bill(base_models.BaseCreateUpdateModel):
     user = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE)
