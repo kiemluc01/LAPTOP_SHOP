@@ -82,7 +82,7 @@ class CartItem(base_models.BaseCreateUpdateModel):
     quantity = models.IntegerField("quantity", default=1)
     
     def __str__(self) -> str:
-        return 'CartItem<{}>: {}-{}'.format(self.pk, self.cart, self.product)
+        return 'CartItem<{}>: {}-{}'.format(self.pk, self.cart.user, self.product.name)
     
     
 class Bill(base_models.BaseCreateUpdateModel):
