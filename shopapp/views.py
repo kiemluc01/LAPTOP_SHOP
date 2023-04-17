@@ -13,8 +13,8 @@ class UserPolicyViewset(viewsets.ModelViewSet):
     serializer_class = UserPolicySerializer
 class Profile(views.APIView):
     def get(self, request):
-        profile = User.objects.filter(pk=request.user.id).first()
-        print(profile.password)
+        # profile = User.objects.filter(pk=request.user.id).first()
+        profile = request.user
         user_serializer = ProfileSerializer(profile)
         return Response(user_serializer.data)
     
