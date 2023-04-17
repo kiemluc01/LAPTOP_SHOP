@@ -53,7 +53,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class ProductCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseProduct
-        fields = ['id', 'name', 'rootImage', 'price', 'inventory_item_product']
+        fields = ['id', 'name', 'rootImage', 'price']
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,7 +61,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class CartItemSerializer(serializers.ModelSerializer):
-    base_product = ProductCartSerializer(read_only=True)
+    product = ProductCartSerializer(read_only=True)
     class Meta:
         model = CartItem
         fields = '__all__'
