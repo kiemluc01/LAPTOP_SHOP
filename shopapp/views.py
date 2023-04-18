@@ -7,6 +7,7 @@ from .serializers import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
     
 class UserPolicyViewset(viewsets.ModelViewSet):
     queryset = UserPolicy.objects.all()
@@ -33,6 +34,7 @@ class FilterProduct(django_filters.FilterSet):
 class ProductViewset(viewsets.ModelViewSet):
     queryset = BaseProduct.objects.all()
     serializer_class = DetailProductSerializer
+    permission_classes = (AllowAny,)
     filterset_class = FilterProduct
     
     def get_serializer_class(self):
