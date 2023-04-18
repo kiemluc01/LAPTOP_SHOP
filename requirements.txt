@@ -24,6 +24,7 @@ django-heroku==0.3.1
 pytz==2020.1
 dj-static
 django-storages
+django-background-task
 # setuptools==58.0.0
 # GDAL==3.5.0
 # pyproj==3.4.1

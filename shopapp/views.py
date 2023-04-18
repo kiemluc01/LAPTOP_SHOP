@@ -53,22 +53,33 @@ class ProductViewset(viewsets.ModelViewSet):
 class CommentViewset(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = (AllowAny,)
     
 class ImageViewset(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     
-    
-    
 class OrderringViewset(views.APIView):
-    
+    ordering = ["created_at"]
     def get(self, request):
         cart = Cart.objects.filter(user=request.user).first()
         return Response(OrderringSerializer(cart).data)
     
+    def post(self, request):
+        cart_serializer = CartListSerializer(data=request.user)
+        if cart_serializer.is_valid():
+            cart_serializer.save()
+            return Response(cart_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(cart_serializer.data, status=status.HTTP_400_BAD_REQUEST)
 class BillOrderViewset(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillOrderSerializer
+    
+class CartItemViewset(viewsets.ModelViewSet):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemListSerializer   
+    ordering = ["-id"]
+    
     
     
 class UserViewset(viewsets.ModelViewSet):

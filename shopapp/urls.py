@@ -11,6 +11,7 @@ router.register(r'images',views.ImageViewset, basename="image")
 # router.register(r'orderrings',views.OrderringViewset.as_view(), basename="orderring" )
 router.register(r'billorders',views.BillOrderViewset, basename="billorder" )
 router.register(r'policies', views.UserPolicyViewset, basename="policy")
+router.register(r'cart_items', views.CartItemViewset, basename="cart_items")
 # router.register(r'profile', views.ProfileViewset, basename="profile")
 
 urlpatterns = router.urls + [
