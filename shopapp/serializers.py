@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User,Userprofile, ProductCategory, BaseProduct, Comment, Image, Cart, CartItem, Bill, BillItem, UserPolicy
 from inventory.serializers import InventoryItemSerializer
+
     
 class ProfileListSerializer(serializers.ModelSerializer):
     
@@ -23,8 +24,7 @@ class UserListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        # fileds =  ['id', 'username', 'email', 'Profile']
-        fileds = '__all__'
+        fields =  ['id', 'username', 'email']
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -85,3 +85,5 @@ class BillOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
         fields = '__all__'
+        
+

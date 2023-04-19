@@ -8,7 +8,13 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
-    
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import  render_to_string
+from datetime import datetime
+
 class UserPolicyViewset(viewsets.ModelViewSet):
     queryset = UserPolicy.objects.all()
     serializer_class = UserPolicySerializer
@@ -24,6 +30,43 @@ class Profile(views.APIView):
         user.save()
         return Response(ProfileSerializer(user).data)
     
+class RegisterViewset(viewsets.ModelViewSet):
+    queryset = User.objects.filter(pk=0)
+    serializer_class = UserListSerializer
+    permission_classes = [AllowAny,]
+    
+    @action(detail=False, methods=['post'])
+    def send_code(self, request):
+        if User.objects.filter(email=request.data['email']).exists():
+            return Response({"message":"email {} đã tại trên hệ thống".format(request.data['email'])}, status=status.HTTP_226_IM_USED)
+        code = random.randint(100000, 999999)
+        mail_from = settings.EMAIL_HOST_USER
+        mail_to = request.data['email']
+        subject = "XÁC THỰC EMAIL"
+        data = {'mail_from': mail_from, 'mail_to':mail_to,'subject':subject}
+        time = datetime.now()
+        time = time.strftime('%H:%M:%S - %d:%m:%y')
+        content = { 
+                   "code": code,
+                   "time":time,
+                   "email": mail_to,
+        }
+        subject, from_email, to = data['subject'], data['mail_from'], data['mail_to']
+        html_content = render_to_string('sendmail.html',context=content)
+        msg = EmailMultiAlternatives(subject, None, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        return Response({"code":code},status=status.HTTP_200_OK)
+
+        
+
+
+        return Response({"code":code}, status=status.HTTP_208_ALREADY_REPORTED)
+    @action(detail=False, methods=['post'])
+    def user_exists(self, request):
+        if User.objects.filter(username=request.data['username']).exists():
+            return Response({'result': True}, status=status.HTTP_409_CONFLICT)
+        return Response({'result': False}, status=status.HTTP_200_OK)
 class CategoryViewset(viewsets.ModelViewSet):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer

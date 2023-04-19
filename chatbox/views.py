@@ -10,34 +10,24 @@ from chatbox.serializers import HistoryChatSerializer, ProductHistory, StaffHist
 from shopapp.models import BaseProduct
 from shopapp.serializers import DetailProductSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import AllowAny
 
 # Create your views here.s
 
 class ChatAIViewset(viewsets.ModelViewSet):
     queryset = HistoryChat.objects.all()
     serializer_class = HistoryChatSerializer
+    permission_classes = [AllowAny,]
     
     def get_serializer_class(self):
         if self.action == 'list':
             return DetailHistorychatSerializer
         return HistoryChatSerializer
-    
-    # def create(self, request, *args, **kwargs):
-    #     with open('chatbox/{}'.format(static("data/AI.json")),encoding='utf-8') as file:
-    #         data = json.load(file)
-    #     answer = "Tôi không hiểu câu hỏi của bạn"
-    #     for intent in data["intents"]:
-    #         for questions in intent['questions']:
-    #             if hs.special_characters(hs.no_accent_vietnamese(request.data['question'])).find(hs.special_characters(hs.no_accent_vietnamese(questions))) >=0:
-    #                 answer = intent["answers"][0]
-    #     serializer_user = HistoryChatSerializer(user=request.user, content= request.data['question'])
-    #     if serializer_user.is_valid():
-    #         serializer_user.save()
         
         
     
 class ChatAI(APIView):
-    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny,]
     
     def get(self, request):
         with open('chatbox/{}'.format(static("data/history.json")),encoding='utf-8') as file:

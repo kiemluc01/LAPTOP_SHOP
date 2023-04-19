@@ -12,7 +12,7 @@ router.register(r'images',views.ImageViewset, basename="image")
 router.register(r'billorders',views.BillOrderViewset, basename="billorder" )
 router.register(r'policies', views.UserPolicyViewset, basename="policy")
 router.register(r'cart_items', views.CartItemViewset, basename="cart_items")
-# router.register(r'profile', views.ProfileViewset, basename="profile")
+router.register(r'register', views.RegisterViewset, basename="register")
 
 urlpatterns = router.urls + [
     path('profile/',views.Profile.as_view()),
