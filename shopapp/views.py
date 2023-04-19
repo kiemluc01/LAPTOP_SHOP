@@ -80,6 +80,21 @@ class CartItemViewset(viewsets.ModelViewSet):
     serializer_class = CartItemListSerializer   
     ordering = ["-id"]
     
+    def create(self, request, *args, **kwargs):
+        cart = Cart.objects.get(user=request.user.id)
+        if CartItem.objects.filter(product=request.data['product'], cart=cart.id).exists():
+            item = CartItem.objects.filter(product=request.data['product'], cart=cart.id).first()
+            item.quantity+=1
+            item.save()
+            return Response(CartItemListSerializer(item).data, status=status.HTTP_201_CREATED)
+        request.data['cart'] = cart.id
+        cart_item_serializer = CartItemListSerializer(data=request.data)
+        if cart_item_serializer.is_valid():
+            cart_item_serializer.save()
+            return Response(cart_item_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(cart_item_serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    
+    
     
     
 class UserViewset(viewsets.ModelViewSet):
