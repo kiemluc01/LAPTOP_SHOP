@@ -28,6 +28,13 @@ SECRET_KEY = 'django-insecure-^*@lgdnfz4p#@at(w#(dxr&gnh8n5*%j!vk^k1l0+4kh3o^%z2
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
+
+USE_I18N = True
+
+USE_TZ = True
 APPEND_SLASH=False
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
@@ -198,13 +205,6 @@ except Exception:
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
