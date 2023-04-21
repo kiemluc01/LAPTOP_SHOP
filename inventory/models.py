@@ -16,14 +16,14 @@ class District(base_models.BaseCreateUpdateModel):
     name = models.CharField("District Name", max_length=100)
     
     def __str__(self) -> str:
-        return 'District<{}>: {}'.format(self.province.name, self.name)
+        return 'District<{}-{}>: {}'.format(self.pk, self.province.name, self.name)
     
 class Ward(base_models.BaseCreateUpdateModel):
     district = models.ForeignKey("inventory.District", related_name="district", on_delete=models.CASCADE)
     name = models.CharField("Ward Name", max_length=100)
     
     def __str__(self) -> str:
-        return 'Ward<{}>: {}'.format(self.district.name, self.name)
+        return 'Ward<{}-{}>: {}'.format(self.pk, self.district.name, self.name)
     
 class Inventory(base_models.BaseCreateUpdateModel):
     name = models.CharField("Name", max_length=150)

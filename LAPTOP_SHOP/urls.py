@@ -13,6 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/shopapp/', include('shopapp.urls')),
     path('api/v1/chatboxs/', include('chatbox.urls')),
+    path('api/v1/inventory/', include('inventory.urls')),
     
     path('api/v1/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
